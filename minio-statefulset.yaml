@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: minio
+spec:
+  serviceName: minio
+  replicas: 1  # You can increase replicas for high availability
+  selector:
+    matchLabels:
+      app: minio
+  template:
+    metadata:
+      labels:
+        app: minio
+    spec:
+      containers:
+        - name: minio
+          image: minio/minio
+          ports:
+            - containerPort: 9000
+          envFrom:
+            - configMapRef:
+                name: minio-config
+          volumeMounts:
+            - name: minio-persistent-storage
+              mountPath: /data
+  volumeClaimTemplates:
+    - metadata:
+        name: minio-persistent-storage
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: ""
+        resources:
+          requests:
+            storage: 100Gi  # Match the storage size with the PVC
