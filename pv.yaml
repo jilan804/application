@@ -1,14 +1,15 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: minio-pv
+  name: efs-pv
 spec:
   capacity:
-    storage: 100Gi  # Adjust the storage size as needed
+    storage: 5Gi
   volumeMode: Filesystem
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
-  nfs:
-    server: fs-03ef5d37f407893da.efs.us-east-1.amazonaws.com
-    path: /  # Mount root directory of your EFS
+  storageClassName: efs-sc
+  csi:
+    driver: efs.csi.aws.com
+    volumeHandle: fs-03ef5d37f407893da
