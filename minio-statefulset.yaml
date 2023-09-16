@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: minio
-          image: minio/minio
+          image: minio/minio:latest
           ports:
             - containerPort: 9000
           envFrom:
@@ -24,12 +24,8 @@ spec:
           volumeMounts:
             - name: minio-persistent-storage
               mountPath: /data
-  volumeClaimTemplates:
-    - metadata:
+      volumes:
+      - name:
         name: minio-persistent-storage
-      spec:
-        accessModes: [ "ReadWriteOnce" ]
-        storageClassName: ""
-        resources:
-          requests:
-            storage: 100Gi  # Match the storage size with the PVC
+        persistentVolumeClaim:
+          claimName: efs-claim
