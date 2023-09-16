@@ -10,5 +10,5 @@ spec:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   nfs:
-    server: <YOUR_EFS_DNS_NAME>
+    server: fs-03ef5d37f407893da.efs.us-east-1.amazonaws.com
     path: /  # Mount root directory of your EFS
